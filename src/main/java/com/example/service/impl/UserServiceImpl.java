@@ -16,6 +16,7 @@ import pojo.UserLoginDTO;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+//git remote add origin https://github.com/Cyttyc/image-quality.git
 
 
 @Service
