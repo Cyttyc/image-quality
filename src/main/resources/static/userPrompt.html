@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提示信息</title>
+    <link rel="stylesheet" href="./assets/promptstyle.css">
+</head>
+<body>
+    <div class="header">
+        <p id="usernameDisplay">账号名</p>
+        <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
+    </div>
+
+    <!-- 中间提示 -->
+    <div class="alert-section">
+        <h2>图像视觉评估</h2>
+        <ul>
+            <li>1. 在开始测试前，我们在下方展示了部分正常图像与异常图像供您进行参考</li>
+            <li>2. 点击开始测试后，您将会对<strong>两张随机</strong>的正常或异常图像进行判断，请<strong>谨慎</strong>做出选择</li>
+            <li>3. 勾选您认为<strong>自然、正常</strong>的图像，您可以选择<strong>单选、多选</strong>甚至<span class="highlight">不选</span><span style="font-size: smaller">(当您认为它们均较为奇怪时)</span></li>
+            <li>4. 本次实验包含<strong>50</strong>组图像，每组均有<strong>10秒</strong>供您判断，您可在<strong>3秒</strong>后开始选择以及进入下一组</li>
+        </ul>
+    </div>
+
+
+    <!-- 图像区域 -->
+    <div class="images-container">
+        <div class="left-images">
+            <img src="img\clean\n01537544_98.JPEG">
+            <img src="img\clean\n01537544_215.JPEG">
+            <img src="img\clean\n01537544_292.JPEG">
+            <img src="img\clean\n01537544_332.JPEG">
+            <img src="img\clean\n01537544_335.JPEG">
+            <img src="img\clean\n01537544_1366.JPEG">
+            <img src="img\clean\n01537544_1118.JPEG">
+            <img src="img\clean\n01537544_1148.JPEG">
+            <img src="img\clean\n01537544_1274.JPEG">
+
+            <!-- 更多图像 -->
+        </div>
+        <!-- 分隔线 -->
+        <div class="divider"></div>
+        <div class="right-images">
+            <img src="img\DA\n01537544_98.JPEG">
+            <img src="img\HTBA\n01537544_98.JPEG">
+            <img src="img\In_v\n01537544_215.JPEG">
+            <img src="img\lsb_panda\n01537544_215.JPEG">
+            <img src="img\ours\n01537544_215.JPEG">
+            <img src="img\refool\n01537544_215.JPEG">
+            <img src="img\SAA\n01537544_249.JPEG">
+            <img src="img\Sig\n01537544_215.JPEG">
+            <img src="img\CLBA\n01537544_215.JPEG">
+            <!-- 更多图像 -->
+        </div>
+    </div>
+
+    <!-- 图像解释 -->
+    <div class="image-explanation">
+        <div class="left-explanation">
+            <p>正常图像示例</p>
+        </div>
+        <div class="right-explanation">
+            <p>异常图像示例</p>
+        </div>
+    </div>
+    <!-- 新增按钮 -->
+    <div class="test-button-container">
+        <button id="startTestButton">开始测试</button>
+    </div>
+
+    <script>
+        // 退出登录功能
+        document.getElementById('logoutIcon').addEventListener('click', function() {
+            // 清除JWT和用户名
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('username');
+            // 重定向到登录页面
+            window.location.href = 'index.html';
+        });
+        // 检查JWT
+        function checkLogin() {
+            var token = localStorage.getItem('jwt');
+            var username = localStorage.getItem('username');
+            if (false) {
+                // 如果没有JWT，重定向到登录页面
+                window.location.href = 'index.html';
+            } else {
+                // 如果登录成功，则显示账号名称
+                document.getElementById('usernameDisplay').textContent = "账号： " + username;
+            }
+        }
+
+        document.getElementById('startTestButton').addEventListener('click', function() {
+            window.location.href = 'user.html'; // 替换为目标页面的路径
+        });
+        // 页面加载时检查登录状态
+        checkLogin();
+    </script>
+</body>
+</html>

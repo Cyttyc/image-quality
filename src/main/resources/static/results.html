@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计结果</title>
+    <link rel="stylesheet" href="./assets/resultstyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="chart.js"></script> <!-- 引入chart.js文件 -->
+    <style>
+        .bar-chart text {
+            font-size: 16px; /* 提高标签字体大小 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <img src="img/img_logo_2.png" alt="logo"> 
+        <div>
+            <a href="index.html">首页</a>
+            <a href="about.html">关于</a>
+            <a href="contact.html">联系</a>
+            <p id="usernameDisplay">账号名</p>
+            <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
+        </div>
+    </div>
+
+    </div>
+    <div class="container">
+        <h1>统计结果</h1>
+        <div id="bar-chart" class="bar-chart"></div>
+    </div>
+    <script>
+        function displayResults() {
+            // 从 localStorage 获取 folderCounts 数据
+            const folderCounts = JSON.parse(localStorage.getItem('folderCounts') || '{}');
+
+            // 将数据转换为适合绘图的格式
+            const folderCountArray = Object.keys(folderCounts).map(key => ({
+                name: key,
+                value: folderCounts[key]
+            }));
+
+            // 从高到低排序
+            folderCountArray.sort((a, b) => b.value - a.value);
+
+            renderBarChart(folderCountArray);
+        }
+
+        // 退出登录功能
+        document.getElementById('logoutIcon').addEventListener('click', function() {
+            // 清除JWT和用户名
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('username');
+            // 重定向到登录页面
+            window.location.href = 'index.html';
+        });
+        // 检查JWT
+        function checkLogin() {
+            var token = localStorage.getItem('jwt');
+            var username = localStorage.getItem('username');
+            if (false) {
+                // 如果没有JWT，重定向到登录页面
+                window.location.href = 'index.html';
+            } else {
+                // 如果登录成功，则显示账号名称
+                document.getElementById('usernameDisplay').textContent = "账号： " + username;
+            }
+        }
+
+        // 页面加载时检查登录状态
+        checkLogin();
+        document.addEventListener('DOMContentLoaded', displayResults);
+    </script>
+</body>
+</html>

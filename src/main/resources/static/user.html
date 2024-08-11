@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户比较图像</title>
+    <link rel="stylesheet" href="./assets/userstyle.css">
+</head>
+<body>
+
+    <div class="header">
+        <p id="usernameDisplay">账号名</p>
+        <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
+    </div>
+
+    <div class="container">
+        <h1>比较两张图像的视觉质量</h1>
+        <div class="subtitle">(点击您认为<strong>自然</strong>、<strong>正常</strong>的图像)</div>
+        <div class="images">
+            <div class="image-box" onclick="toggleCheckbox('image1-checkbox')">
+                <img id="image1" alt="图像1">
+                <div class="image-label">鸟</div>
+                <input type="checkbox" id="image1-checkbox" name="image-checkbox">
+                <label for="image1-checkbox"></label>
+            </div>
+            <!-- 分割线 -->
+            <div class="divider"></div>
+
+            <div class="image-box" onclick="toggleCheckbox('image2-checkbox')">
+                <img id="image2" alt="图像2">
+                <div class="image-label">鸟</div>
+                <input type="checkbox" id="image2-checkbox" name="image-checkbox">
+                <label for="image2-checkbox"></label>
+            </div>
+        </div>
+
+        
+        <button class="next-button" onclick="nextImages()">下一张</button>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <span class="progress-text" id="progress-text">0/28</span>
+        </div> <!-- 进度条 -->
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 10; // 10秒倒计时
+        let isTimerDone = false; // 标记倒计时是否结束
+
+        const totalSelections = 5;
+        let currentSelection = 0; // 当前选择的组数
+
+        function startTimer() {
+            // 清除之前的计时器和计时器元素
+            if (timer) {
+                clearInterval(timer);
+                const existingTimer = document.getElementById('timer');
+                if (existingTimer) {
+                    document.querySelector('.container').removeChild(existingTimer);  
+                }
+            }
+            timeLeft = 10; // 10秒倒计时
+            const timerElement = document.createElement('div');
+            timerElement.id = 'timer';
+            timerElement.textContent = `开始倒计时~`; // 直接在这里设置初始文本 
+            document.querySelector('.container').appendChild(timerElement);
+
+            // 禁用按钮并添加自定义的disabled类  
+            const nextButton = document.querySelector('.next-button');  
+            nextButton.disabled = true;  
+            nextButton.classList.add('disabled'); // 添加自定义的disabled类  
+                    
+            timer = setInterval(() => {
+                timerElement.textContent = `剩余时间: ${timeLeft}秒`;
+                timeLeft--;
+
+                if (timeLeft <= 8) {
+                    nextButton.disabled = false;  
+                    nextButton.classList.remove('disabled'); // 移除自定义的disabled类 
+                } 
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    timerElement.textContent = '时间到！';
+                    isTimerDone = true;
+                    setTimeout(() => {
+                        document.querySelector('.container').removeChild(timerElement);
+                        nextImages(true);
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(id);
+            const imageBox = checkbox.closest('.image-box');
+            checkbox.checked = !checkbox.checked;
+
+            if (checkbox.checked) {
+                imageBox.classList.add('selected');
+            } else {
+                imageBox.classList.remove('selected');
+            }
+        }
+
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        let count = 0;
+
+        const folders = ['CLBA', 'DA', 'HTBA', 'lsbPanda', 'refool', 'ours', 'Sig', 'clean', 'Inv', 'SAA'];
+        const folderCounts = {};
+        const balanceCounts = {};
+        folders.forEach(folder => folderCounts[folder] = 0);
+        folders.forEach(folder => balanceCounts[folder] = 0);
+        const folderSelections = totalSelections / 10;
+
+        async function fetchImageNames() {
+            const selectedFolders = getBalancedFolders();
+            while (selectedFolders[0] === selectedFolders[1]) {
+                selectedFolders[1] = getBalancedFolders();
+            }
+
+            const response = await fetch('img/same_bird.txt');
+            const text = await response.text();
+            const lines = text.trim().split('\n');
+            const name = lines.map(line => line.split(/\s+/)[0]);
+            setRandomImages(name, selectedFolders);
+            startTimer(); // 启动计时器
+        }
+
+        function getBalancedFolders() {
+            const eligibleFolders = folders.filter(folder => balanceCounts[folder] < folderSelections);
+
+            if (eligibleFolders.length < 2) {
+                Object.keys(balanceCounts).forEach(folder => balanceCounts[folder] = 0);
+                return getBalancedFolders();
+            }
+
+            let selectedFolders = [];
+            while (selectedFolders.length < 2) {
+                const folder = getRandomElement(eligibleFolders);
+                if (!selectedFolders.includes(folder)) {
+                    selectedFolders.push(folder);
+                }
+            }
+
+            selectedFolders.forEach(folder => balanceCounts[folder]++);
+            return selectedFolders;
+        }
+
+        function setRandomImages(name, folders) {
+            const image1 = document.getElementById('image1');
+            const image2 = document.getElementById('image2');
+            
+            let imgName = getRandomElement(name);
+
+            image1.src = `img/${folders[0]}/${imgName}`;
+            image2.src = `img/${folders[1]}/${imgName}`;
+
+            image1.dataset.folder = folders[0];
+            image2.dataset.folder = folders[1];
+        }
+
+        function nextImages(timerDone = false) {
+            const checkboxes = document.getElementsByName('image-checkbox');
+
+            const imageBoxes = document.querySelectorAll('.image-box');  
+            imageBoxes.forEach(box => {  
+                box.classList.remove('selected'); // 如果使用了 'selected' 类来更改背景色  
+                box.style.backgroundColor = ''; // 直接清空背景色样式  
+                // 如果还有其他的样式需要重置，也可以在这里做  
+            }); 
+
+            const selectedItems = Array.from(checkboxes).filter(item => item.checked);
+
+            selectedItems.forEach(selected => {
+                const selectedFolder = selected.parentElement.querySelector('img').dataset.folder;
+                folderCounts[selectedFolder] += 1; // 增加选中的文件夹计数
+            });
+
+
+            currentSelection++;
+            updateProgress(); // 更新进度条
+            
+            if (currentSelection >= totalSelections) {
+                localStorage.setItem('folderCounts', JSON.stringify(folderCounts));
+                window.location.href = 'viewport.html';
+                return;
+            }
+
+            checkboxes.forEach((item) => item.checked = false);
+
+            fetchImageNames();
+            startTimer(); // 启动新的计时器
+        }
+        
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressPercentage = (currentSelection / totalSelections) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${currentSelection}/${totalSelections}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchImageNames();
+            updateProgress(); // 初始化进度条
+            startTimer(); // 开始计时器
+        });
+
+    </script>
+
+    <script>
+        // 退出登录功能
+        document.getElementById('logoutIcon').addEventListener('click', function() {
+            // 清除JWT和用户名
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('username');
+            // 重定向到登录页面
+            window.location.href = 'index.html';
+        });
+
+        // 检查JWT
+        function checkLogin() {
+            var token = localStorage.getItem('jwt');
+            var username = localStorage.getItem('username');
+            if (false) {
+                // 如果没有JWT，重定向到登录页面
+                window.location.href = 'index.html';
+            } else {
+                // 如果登录成功，则显示账号名称
+                document.getElementById('usernameDisplay').textContent = "账号： " + username;
+            }
+        }
+        checkLogin();
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper">
+    <update id="update">
+        update user
+        <set>
+            <if test = "CLBA != null">CLBA = #{CLBA},</if>
+            <if test = "HTBA != null">HTBA = #{HTBA},</if>
+            <if test = "DA != null">DA = #{DA},</if>
+            <if test = "lsbPanda != null">lsbPanda = #{lsbPanda},</if>
+            <if test = "refool != null">refool = #{refool},</if>
+            <if test = "CLBA != null">CLBA = #{CLBA},</if>
+            <if test = "clean != null">clean = #{clean},</if>
+            <if test = "ours != null">ours = #{ours},</if>
+            <if test = "Sig != null">Sig = #{Sig},</if>
+            <if test = "Inv != null">Inv = #{Inv},</if>
+            <if test = "SAA != null">SAA = #{SAA},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where username = #{username}
+    </update>
+
+</mapper>

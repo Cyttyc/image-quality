@@ -1,0 +1,33 @@
+server:
+    port: 9090
+
+spring:
+    web:
+        resources:
+            static-locations: classpath:/static/, file:/C:/Users/13449/Desktop/login/
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: '123456'
+        url: jdbc:mysql://localhost:3306/mybatis
+
+mybatis:
+    #mapper配置文件
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: pojo
+    configuration:
+        #开启驼峰命名
+        map-underscore-to-camel-case: true
+
+logging:
+    level:
+        org.springframework.web: INFO
+
+example:
+    jwt:
+        #设置jwt签名加密时使用的密钥
+        subject-secret-key: tyc
+        #设置jwt过期时间
+        subject-ttl: 7200000
+        #设置前端传递过来的令牌名称
+        subject-token-name: token

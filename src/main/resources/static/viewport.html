@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感谢参与</title>
+    <link rel="stylesheet" href="./assets/viewportstyle.css">
+    <style>
+        /* 定义旋转动画 */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+         
+
+    </style>
+</head>
+<body>
+     <!-- 导航栏 -->
+     <div class="navbar">
+        <img src="img/img_logo_2.png" alt="logo"> 
+        <div>
+            <a href="index.html">首页</a>
+            <a href="about.html">关于</a>
+            <a href="contact.html">联系</a>
+            <p id="usernameDisplay">账号名</p>
+            <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="message">
+            <h1>感谢您的参与，谢谢！</h1>
+            <div class="spin-icon" id="spinIcon"></div>
+            <div class="success-icon hidden" id="successIcon">✔</div>
+        </div>
+        <div class="actions">
+            <button id="viewResults" class="action-btn">查看结果</button>
+            <button id="leaveMessage" class="action-btn">留言</button>
+        </div>
+    </div>
+
+
+    <script>
+        // 退出登录功能
+        document.getElementById('logoutIcon').addEventListener('click', function() {
+            // 清除JWT和用户名
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('username');
+            // 重定向到登录页面
+            window.location.href = 'index.html';
+        });
+        // 检查JWT
+        function checkLogin() {
+            var token = localStorage.getItem('jwt');
+            var username = localStorage.getItem('username');
+            if (false) {
+                // 如果没有JWT，重定向到登录页面
+                window.location.href = 'index.html';
+            } else {
+                // 如果登录成功，则显示账号名称
+                document.getElementById('usernameDisplay').textContent = "账号： " + username;
+            }
+        }
+
+        //自动保存数据至数据库中
+        async function saveData() {
+            const folderCounts = JSON.parse(localStorage.getItem('folderCounts') || '{}');
+            const username = localStorage.getItem('username');
+
+            try {
+                const response = await fetch('/user/savedata', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        folderCounts: folderCounts
+                    }),
+                });
+
+                if (response.ok) {
+                    console.log('Folder counts saved successfully');
+                } else {
+                    console.error('Failed to save folder counts');
+                }
+            } catch (error) {
+                console.error('Error saving folder counts:', error);
+            }
+        }
+
+        // 页面加载时检查登录状态
+        checkLogin();
+        // 页面加载时启动旋转动画，1秒后显示成功提示
+        window.onload = function() {
+            setTimeout(function() {
+                // 隐藏旋转图标
+                document.getElementById('spinIcon').style.display = 'none';
+                // 显示成功提示
+                document.getElementById('successIcon').style.display = 'inline-block';
+                // 保存数据
+                saveData();
+            }, 1000); // 1秒后停止旋转并显示成功提示
+        };
+    </script>
+    <script src="viewport.js"></script>
+</body>
+</html>

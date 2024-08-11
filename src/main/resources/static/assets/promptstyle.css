@@ -1,0 +1,238 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+/* 退出，以及用户名显示 */
+.header {
+    width: 100%;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0c0c0c;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+    box-sizing: border-box; /* 确保内边距不会影响整体宽度 */
+}
+.header p {
+    margin-right: 20px;
+    font-size: 18px;
+    color: #f8f8f8;
+    font-weight: bold;
+    /* padding-right: 20px; */
+}
+
+.header img {
+    height: 20px; /* 调整图标大小 */
+    margin-left: 10px; /* 确保图标不会太靠近用户名 */
+    cursor: pointer; /* 鼠标悬停时显示为手型 */
+}
+
+.header img:hover {
+    /* 鼠标悬停时显示提示 */
+    opacity: 0.7; /* 或者可以使用其他提示方式 */
+}
+
+.header img::after {
+    content: "退出登录";
+    position: absolute;
+    display: none;
+    background: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.header img:hover::after {
+    display: block;
+    top: 25px; /* 调整提示的显示位置 */
+    right: 10px; /* 确保提示不会超出屏幕 */
+}
+
+
+/* 提示信息 */
+.alert-section {
+    text-align: center;
+    padding-top: 12%;
+    margin: 0 0;
+    width: 100%; /* 确保宽度为100% */
+}
+
+.alert-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alert-section li {
+    margin: 5px 0;
+}
+
+/* 小字体样式 */
+.small-text {
+    font-size: smaller; /* 或者使用具体的大小，比如 12px */
+}
+
+/* 高亮样式 */
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+/* 分隔线 */
+.divider {
+    border-left: 2px dashed #000;  /* 上边框为1px的虚线，颜色为深色 */
+    margin: 0 20px;/* 左右外边距为20px */
+    height: 100%; /* 确保分隔线占据父容器的全部宽度 */
+    max-width: 1200px; /* 限制最大宽度，以确保视觉效果一致 */
+    align-self: center; /* 中心对齐 */
+}
+
+/* 图像区域 */
+.images-container {
+    display: flex;
+    justify-content: space-between; /* 水平居中对齐 */
+    flex-wrap: wrap; /* 在小屏幕上折行 */
+    margin: 0px 20px; /* 调整为左右外边距20px */
+}
+
+.left-images, .right-images {
+    box-sizing: border-box; /* 包括内边距和边框在内计算宽度 */
+    margin-bottom: 10px; /* 图像容器底部间距 */
+
+}
+
+.left-images img, .right-images img {
+    width: 25%;
+    height: auto;
+}
+
+.left-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 使图像靠右对齐 */
+    gap: 4px; /* 设置图像之间的间距，例如10px */
+    margin: 0; /* 去掉外边距 */
+    padding: 0; /* 去掉内边距 */
+}
+
+.left-images img {
+    margin: 0; /* 去掉图像的外边距 */
+    align-items: center;
+}
+
+.right-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px; /* 设置图像之间的间距，例如10px */
+    margin: 0; /* 去掉外边距 */
+    padding: 0; /* 去掉内边距 */
+}
+
+.right-images img {
+    margin: 0; /* 去掉图像的外边距 */
+    align-items: center;
+}
+
+
+/* 图像解释 */
+.image-explanation {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* 在小屏幕上折行 */
+    margin: 0 20px; /* 调整为左右外边距20px */
+    width: calc(100% - 40px); /* 容器宽度为100%，减去左右外边距的总和（20px + 20px）*/
+    box-sizing: border-box; /* 确保 padding 和 border 包括在宽度计算内 */
+}
+
+.left-explanation {
+    width: 47%;
+    min-width: 200px; /* 确保图像解释在小屏幕上有最小宽度 */
+    text-align: center;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    
+}
+
+.right-explanation {
+    width: 47%;
+    min-width: 200px; /* 确保图像解释在小屏幕上有最小宽度 */
+    text-align: center;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+}
+
+/* 按钮容器 */
+.test-button-container {
+    display: flex;
+    margin: -20px 0; /* 上下间距 */
+    justify-content: center;
+
+}
+
+/* 按钮样式 */
+#startTestButton {
+    padding: 10px 20px; /* 按钮内边距 */
+    font-size: 16px; /* 按钮字体大小 */
+    background-color: #007BFF; /* 按钮背景颜色 */
+    color: white; /* 按钮文字颜色 */
+    border: none; /* 去掉按钮边框 */
+    border-radius: 5px; /* 按钮圆角 */
+    cursor: pointer; /* 鼠标悬停时显示指针 */
+}
+
+#startTestButton:hover {
+    background-color: #0056b3; /* 鼠标悬停时按钮背景颜色 */
+}
+
+
+/* 媒体查询 */
+/* 当视口宽度小于等于 600 像素时应用此样式 */
+@media screen and (max-width: 600px) {
+    body {
+        background-color: white;
+        font-size: 14px;
+    }
+}
+
+/* 当视口宽度在 601 像素到 1024 像素之间时应用此样式 */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    body {
+        background-color: white;
+        font-size: 15px;
+        margin: -80px 0;
+        padding-top: 0; /* 根据需要调整 */
+    }
+    .left-images, .right-images {
+        flex: 1 1 calc(33.333% - 20px); /* 在中等屏幕上，每个图像容器占据父容器的三分之一宽度 */
+    }
+}
+
+/* 当视口宽度大于 1024 像素时应用此样式 */
+@media screen and (min-width: 1025px) {
+    body {
+        background-color: white;
+        font-size: 16px;
+        justify-content: space-between; /* 水平居中对齐 */
+        margin: -5% auto; /* 中心对齐 */
+        width: 80%; /* 设置为页面宽度的80% */
+        
+    }
+    .left-images, .right-images {
+        display: flex;
+        flex: 1 1 calc(1%); 
+    }
+}
+

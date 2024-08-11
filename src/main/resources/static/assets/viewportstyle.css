@@ -1,0 +1,168 @@
+*{
+    margin: 0;
+    padding: 0;
+    /*标准盒子 */
+    box-sizing: border-box;
+}
+body,html{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8f8f8;
+    /* 锁定背景： */
+    background-attachment: fixed;
+    /* 弹性布局 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin:  0 auto;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vw;
+    max-width: 800px; /* 设置容器的最大宽度为1200px，避免在大屏幕上过于扩展 */
+    min-width: 600px; /* 设置容器的最小宽度为600px，确保在小屏幕上也有合理的宽度 */
+    height: 50%;
+    background-color: #ffffff;
+    padding: 20px 40px 20px 0; /* 增加右侧的内边距为40px */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.message {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.message h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.windmill {
+    width: 50px;
+    height: 50px;
+    border: 5px solid transparent;
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+/* 操作按钮部分的样式 */
+.actions {
+    display: flex; /* 使用Flexbox布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+    gap: 20px; /* 子元素之间的间距 */
+    margin-right: 10px; /* 增加右边距 */
+}
+
+/* 按钮的通用样式 */
+.action-btn {
+    padding: 10px 20px; /* 内边距 */
+    background-color: #298af2; /* 背景颜色 */
+    color: white; /* 文字颜色 */
+    border: none; /* 去除默认边框 */
+    cursor: pointer; /* 鼠标悬停时显示为指针 */
+    border-radius: 5px; /* 边框圆角 */
+    font-size: 14px; /* 字体大小 */
+}
+
+/* 按钮悬停时的样式 */
+.action-btn:hover {
+    background-color: #0056b3; /* 改变背景颜色 */
+}
+
+/* 导航栏 */
+.navbar {
+    width: 100%;
+    padding: 10px;
+    position: fixed; /* 固定在页面顶部 */
+    background-color: #0c0c0c;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    top: 0;
+    left: 0;
+    padding-right: 20px;
+    box-sizing: border-box; 
+}
+.navbar div {
+    display: flex;
+    align-items: center; /* 让导航栏中的元素垂直居中 */
+}
+
+.navbar img {
+    height: 60px; /* Adjust the height as needed */
+    margin-left: 40px;
+}
+.navbar #usernameDisplay {
+    color: white;
+    margin: 0 10px; /* 为账号名左右增加一些间距 */
+}
+.navbar a {
+    color: #f8f8f8;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.navbar p {
+    margin-right: 20px;
+    font-size: 18px;
+    color: #f8f8f8;
+    font-weight: bold;
+}
+
+.navbar #logoutIcon {
+    height: 20px; /* 设置退出登录图标的高度 */
+    margin-left: 10px; /* 与账号名之间增加一些间距 */
+    cursor: pointer; /* 鼠标悬停时显示为指针 */
+}
+.navbar a:hover {
+    text-decoration: underline;
+}
+/* 添加一个占位符，让内容不被导航栏遮挡 */
+.navbar-placeholder {
+    height: 80px; /* 设置为导航栏的高度 */
+}
+
+/* 旋转元素样式 */
+.spin-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top-color: #63b3e9;
+    border-radius: 50%;
+    animation: spin 2s linear;
+}
+
+/* 隐藏图标 */
+.hidden {
+    display: none;
+}
+
+/* 成功提示样式 */
+.success-icon {
+    font-size: 50px;
+    color: rgb(48, 152, 238);
+    display: none; /* 初始状态隐藏 */
+}

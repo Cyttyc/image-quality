@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工评价图像平台</title>
+    <!-- 引入css 和图标图的css  引入才可以生效 -->
+    <link rel="stylesheet" href="./assets/style.css?v=1.0">
+    <link rel="stylesheet" href="./assets/iconfont/iconfont.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <img src="img/img_logo_2.png" alt="logo"> 
+        <div>
+            <a href="index.html">首页</a>
+            <a href="about.html">关于</a>
+            <a href="contact.html">联系</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="title">人工评价图像平台</div>
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <!-- 注册 -->
+                <form id="registerForm" method="post">
+                    <h1>受试者注册</h1>
+                    <input type="text" name="username" placeholder="账号名" required>
+                    <input type="password" name="password" placeholder="密码" required>
+                    <button type="submit">注册</button>
+                    <p id="registerResponseMessage"></p>
+                </form>
+            </div>
+    
+            <div class="form-container sign-in-container">
+                <!-- 登陆 -->
+                <form id="loginForm" method="post">
+                    <h1>受试者登陆</h1>
+                    <input type="text" name="username" placeholder="账号名" required>
+                    <input type="password" name="password" placeholder="密码" required>
+                    <a href="#">忘记密码?</a>
+                    <button type="submit">登陆</button>
+                    <p id="responseMessage"></p>
+                </form>
+            </div>
+            <!-- 侧边栏内容 -->
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-pannel overlay-left">
+                        <h1>已有账号?</h1>
+                        <p>点击登陆吧。</p>
+                        <button class="ghost" id="signIn">登陆</button>
+                    </div>
+                    <div class="overlay-pannel overlay-right">
+                        <h1>没有帐号？</h1>
+                        <p>点击注册去注册一个属于你的账号吧。</p>
+                        <button class="ghost" id="signUp">注册</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script src="./index.js"></script>
+
+<script>
+//加入邮箱功能
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单的默认提交行为
+
+    var formData = new FormData(this);
+    var object = {};
+    formData.forEach((value, key) => {
+        object[key] = value;
+    });
+    var json = JSON.stringify(object);
+    
+    fetch('/user/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: json
+    })
+    .then(response => response.json())
+    .then(data => {
+        var messageElement = document.getElementById('responseMessage');
+        if (data.code === 1) {
+            //登录成功，讲JWT储存在localStroage
+            localStorage.setItem('jwt', data.data.token);
+            localStorage.setItem('username', data.data.username);
+            window.location.href = 'userPrompt.html';
+        } else {
+            messageElement.textContent = data.msg || '用户名或密码错误！'; // 错误消息
+            messageElement.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        var messageElement = document.getElementById('responseMessage');
+        messageElement.textContent = '发生错误，请重试！';
+        messageElement.style.color = 'red';
+    });
+});
+
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单的默认提交行为
+
+    var formData = new FormData(this);
+    var data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
+    fetch('/user/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        var messageElement = document.getElementById('registerResponseMessage');
+        if (data.code === 1) {
+            messageElement.textContent = '注册成功！'; // 成功消息
+            messageElement.style.color = 'green';
+
+            //添加三秒延迟点击，如果每点击就自动点击
+            setTimeout(() => {
+                // 自动点击登录按钮
+                document.getElementById('signIn').click();
+                // 填写账号和密码
+                document.querySelector('.sign-in-container input[name="username"]').value = data.data.username;
+                document.querySelector('.sign-in-container input[name="password"]').value = data.data.password;
+            }, 3000);
+
+        } else {
+            messageElement.textContent = data.msg || '注册失败！'; // 错误消息
+            messageElement.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        var messageElement = document.getElementById('registerResponseMessage');
+        messageElement.textContent = '发生错误，请重试！';
+        messageElement.style.color = 'red';
+    });
+});
+
+
+// 处理注册和登录表单之间的切换
+document.getElementById('signIn').addEventListener('click', function() {
+    document.querySelector('.sign-in-container').style.display = 'block';
+    document.querySelector('.sign-up-container').style.display = 'none';
+    document.getElementById('loginForm').reset(); // 清空登录表单内容
+    document.getElementById('responseMessage').textContent = ''; // 清空消息提示
+});
+
+document.getElementById('signUp').addEventListener('click', function() {
+    document.querySelector('.sign-in-container').style.display = 'none';
+    document.querySelector('.sign-up-container').style.display = 'block';
+    document.getElementById('registerForm').reset(); // 清空注册表单内容
+    document.getElementById('registerResponseMessage').textContent = ''; // 清空消息提示
+});
+</script>
+    
+</html>
