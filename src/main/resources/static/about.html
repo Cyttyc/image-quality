@@ -5,25 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我们</title>
     <style>
-        body {
+        *{
             margin: 0;
-            padding: 0%;
+            padding: 0;
+            /*标准盒子 */
+            box-sizing: border-box;
+        }
+        body,html{
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8f8f8;
+            /* 锁定背景： */
+            background-attachment: fixed;
+            /* 弹性布局 */
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            height: 100vh;
+            height: 100%;
+            margin:  0;
+            overflow: hidden; /* 禁止页面滚动 */
         }
+
+
+        /* 导航栏 */
         .navbar {
             width: 100%;
             background-color: #0c0c0c;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: rgb(7, 1, 1);
+            color: rgb(255, 255, 255);
             padding: 10px 20px;
+            position: fixed; /* 固定在页面顶部 */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* 确保导航栏在其他元素之上 */
         }
+
         .navbar img {
             height: 60px; /* Adjust the height as needed */
             margin-left: 40px;
@@ -32,85 +50,60 @@
             color: white;
             text-decoration: none;
             padding: 0 15px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
         }
         .navbar a:hover {
             text-decoration: underline;
         }
+        /* 添加一个占位符，让内容不被导航栏遮挡 */
+        .navbar-placeholder {
+            height: 80px; /* 设置为导航栏的高度 */
+        }
+
         .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+            max-width: 900px; /* 设置最大宽度 */
+            width: 80vh; /* 设置宽度为屏幕的90% */
+            height: auto;/*  设置容器高度为视口高度 */
+            margin: 0 15px;/*  在上下添加间距，左右居中 */
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 8px; /* 添加圆角边框 */
+            box-sizing: border-box; /* 包括padding和border在内 */
+            display: flex; /* 使用flexbox布局 */
+            flex-direction: column; /* 纵向排列 */
+            justify-content: flex-start; /* 垂直居中对齐内容 */
+            /* align-items: center; 水平居中对齐内容 */
+            text-align: center; /* 使文本居中对齐 */
         }
-        .title-box {
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            font-weight: bold;
-            margin-bottom: 200px;
+
+
+        h1 {
+            margin-bottom: 15px; /* 为标题和下方内容添加间距 */
+            font-size: 2em; /* 增大标题字体 */
         }
-        .buttons {
-            width: 60%;
-            display: flex;
-            justify-content: space-around;
+
+        p {
+            line-height: 1.6;
+            font-size: 1.2em; /* 增大段落字体 */
+            margin-bottom: 10px; /* 为段落之间添加间距 */
         }
-        .button {
-            width: 200px;
-            height: 140px;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            /* text-decoration: none;
-            color: black; */
-        }
-        .button:hover {
-            background-color: #d0d0d0;
-        }   
+        
+          
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <div class="navbar">
         <img src="img/img_logo_2.png" alt="logo"> 
-
         <div>
             <a href="index.html">首页</a>
-            <a href="javascript:void(0)" onclick="openModal()">登录</a>
             <a href="about.html">关于</a>
             <a href="contact.html">联系</a>
         </div>
     </div>
 </body>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        p {
-            line-height: 1.6;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
