@@ -16,6 +16,7 @@ body,html{
     align-items: center;
     height: 100vh;
     margin:  0 auto;
+    /* overflow: auto; 允许页面内容滚动 */
 }
 
 .container {
@@ -29,6 +30,8 @@ body,html{
     background-color: #ffffff;
     padding: 20px 40px 20px 0; /* 增加右侧的内边距为40px */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 40px; /* 确保与导航栏保持一定距离 */
+    box-sizing: border-box; /* 确保padding和border不会影响宽度和高度 */
 }
 
 .message {
@@ -102,6 +105,7 @@ body,html{
     left: 0;
     padding-right: 20px;
     box-sizing: border-box; 
+    z-index: 1000; /* 确保导航栏在内容上方 */
 }
 .navbar div {
     display: flex;
@@ -165,4 +169,22 @@ body,html{
     font-size: 50px;
     color: rgb(48, 152, 238);
     display: none; /* 初始状态隐藏 */
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90vw; /* 在小屏幕时，使用更小的宽度 */
+        min-width: unset; /* 取消最小宽度限制 */
+        margin-top: 60px; /* 增加margin-top以避免被导航栏遮挡 */
+    }
+    .container h1 {
+        font-size: 1.2rem; /* 调整标题文字大小 */
+    }
+    .container .action-btn {
+        font-size: 0.9rem; /* 调整按钮文字大小 */
+        padding: 10px 20px; /* 调整按钮的内边距 */
+    }
+    .message {
+        font-size: 0.9rem; /* 调整消息文字大小 */
+    }
 }

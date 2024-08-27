@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>联系我们</title>
+    <link rel="icon" href="img/log.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/log.ico" type="image/x-icon">
+
     <style>
         *{
             margin: 0;
@@ -95,10 +98,10 @@
 <body>
     <!-- 导航栏 -->
     <div class="navbar">
-        <img src="img/img_logo_2.png" alt="logo"> 
+        <img src="img/img_logo_2.png" alt="logo"  id="logoImage" style="cursor: pointer;"> 
         <div>
             <a href="index.html">首页</a>
-            <a href="about.html">关于</a>
+            <!-- <a href="about.html">关于</a> -->
             <a href="contact.html">联系</a>
         </div>
     </div>
@@ -108,5 +111,11 @@
         <p>Email: 1344937895@qq.com</p>
         <p>电话: 17855517516</p>
     </div>
+    <script>
+        //logo返回机制
+        document.getElementById("logoImage").addEventListener("click", function() {
+            window.history.back();
+        });
+    </script>
 </body>
 </html>

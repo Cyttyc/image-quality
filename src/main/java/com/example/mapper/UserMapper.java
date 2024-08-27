@@ -1,9 +1,6 @@
 package com.example.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import pojo.User;
 import pojo.UserLoginDTO;
 
@@ -18,4 +15,10 @@ public interface UserMapper {
     void register(User user);
 
     void update(User user);
+
+    @Update("UPDATE user SET leaveMessage = #{message} WHERE username = #{name}")
+    void updateMessage(@Param("name") String name, @Param("message") String message);
+
+    @Select("select * from user where id < #{currentUserId} order by id desc limit 1")
+    User getPreviousUser(Long currentUserId);
 }

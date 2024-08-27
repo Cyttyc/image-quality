@@ -19,6 +19,7 @@ public class User implements Serializable {
     private String username;
     //密码
     private String password;
+    private Integer status;
 
     //注册时间
     private LocalDateTime createTime;
@@ -35,5 +36,7 @@ public class User implements Serializable {
     private Integer clean;
     private Integer Inv;
     private Integer Sig;
+
+    private String leaveMessage;
 
 }

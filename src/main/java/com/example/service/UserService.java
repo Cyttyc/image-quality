@@ -17,5 +17,14 @@ public interface UserService {
     void register(UserLoginDTO userLoginDTO);
 
 //    受试者数据保存
-    void saveDate(UserDataDTO userDataDTO);
+    Map<String, Integer> saveDate(UserDataDTO userDataDTO);
+//受试者留言
+    void submitMessage(String name, String message);
+
+    /**
+     * elo
+     * @param userDataDTO
+     * @return
+     */
+    Map<String, Integer> elo(UserDataDTO userDataDTO);
 }

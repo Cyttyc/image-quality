@@ -5,6 +5,7 @@
     <update id="update">
         update user
         <set>
+            <if test="status != null">status = #{status},</if>
             <if test = "CLBA != null">CLBA = #{CLBA},</if>
             <if test = "HTBA != null">HTBA = #{HTBA},</if>
             <if test = "DA != null">DA = #{DA},</if>

@@ -6,6 +6,7 @@ import com.example.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pojo.MeaageDTO;
 import pojo.User;
 import pojo.UserDataDTO;
 import pojo.UserLoginDTO;
@@ -42,6 +43,7 @@ public class UserController {
         HashMap<String, Object> responseData = new HashMap<>();
         responseData.put("token", jwt);
         responseData.put("username", res.getUsername());
+        responseData.put("status", res.getStatus());
         return Result.success(responseData);
     }
 
@@ -58,9 +60,24 @@ public class UserController {
     }
 
     @PostMapping("/savedata")
-    public Result saveData(@RequestBody UserDataDTO userDataDTO){
+    public Result<Map<String, Integer>> saveData(@RequestBody UserDataDTO userDataDTO){
         log.info("用户和数据：{}", userDataDTO);
-        userService.saveDate(userDataDTO);
+        Map<String, Integer> map = userService.saveDate(userDataDTO);
+        return Result.success(map);
+    }
+
+    @PostMapping("/submitMessage")
+    public Result submitMessage(@RequestBody MeaageDTO messageDTO){
+        String name = messageDTO.getUsername();
+        String message = messageDTO.getMessage();
+        log.info("{}, 的留言：{}", name, message);
+        userService.submitMessage(name, message);
         return Result.success();
+    }
+
+    @PostMapping("/elo")
+    public Result<Map<String, Integer>> elo(@RequestBody UserDataDTO userDataDTO){
+        Map<String, Integer> map = userService.elo(userDataDTO);
+        return Result.success(map);
     }
 }

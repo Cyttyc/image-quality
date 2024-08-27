@@ -5,70 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>提示信息</title>
     <link rel="stylesheet" href="./assets/promptstyle.css">
+    <link rel="icon" href="img/log.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/log.ico" type="image/x-icon">
+
 </head>
 <body>
     <div class="header">
         <p id="usernameDisplay">账号名</p>
         <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
     </div>
-
-    <!-- 中间提示 -->
-    <div class="alert-section">
-        <h2>图像视觉评估</h2>
-        <ul>
-            <li>1. 在开始测试前，我们在下方展示了部分正常图像与异常图像供您进行参考</li>
-            <li>2. 点击开始测试后，您将会对<strong>两张随机</strong>的正常或异常图像进行判断，请<strong>谨慎</strong>做出选择</li>
-            <li>3. 勾选您认为<strong>自然、正常</strong>的图像，您可以选择<strong>单选、多选</strong>甚至<span class="highlight">不选</span><span style="font-size: smaller">(当您认为它们均较为奇怪时)</span></li>
-            <li>4. 本次实验包含<strong>50</strong>组图像，每组均有<strong>10秒</strong>供您判断，您可在<strong>3秒</strong>后开始选择以及进入下一组</li>
-        </ul>
-    </div>
-
-
-    <!-- 图像区域 -->
-    <div class="images-container">
-        <div class="left-images">
-            <img src="img\clean\n01537544_98.JPEG">
-            <img src="img\clean\n01537544_215.JPEG">
-            <img src="img\clean\n01537544_292.JPEG">
-            <img src="img\clean\n01537544_332.JPEG">
-            <img src="img\clean\n01537544_335.JPEG">
-            <img src="img\clean\n01537544_1366.JPEG">
-            <img src="img\clean\n01537544_1118.JPEG">
-            <img src="img\clean\n01537544_1148.JPEG">
-            <img src="img\clean\n01537544_1274.JPEG">
-
-            <!-- 更多图像 -->
+    <div class="all">
+        <!-- 中间提示 -->
+        <div class="alert-section">
+            <h2>图像视觉评估</h2>
+            <ul>
+                <!-- 一次测试两张图像并排的，比较哪张图像视觉质量更好 -->
+                <li>在测试开始前，我们在下方展示了部分图像示例供您进行参考，左/右两侧分别代表高/低视觉质量示例</li>
+                <li>点击<span class="start-button">开始测试</span>按钮后，您将会看到<strong>两张</strong>随机选择的图像<strong>并排</strong>显示，请仔细比较并判断哪张图像的视觉质量更好</li>
+                <li>点击您认为视觉质量较<span class="highlight">高</span>的图像，您可以选择<strong>单选、多选</strong>或者<span class="highlight">不选</span><span style="font-size: smaller">(请根据实际情况谨慎选择)</span></li>
+                <li>本次实验包含<strong>100</strong>组图像，每组图像将提供<strong>10秒</strong>时间供您进行判断</li>
+                <li>请在<span class="highlight">规定时间</span>内做出选择，并<span class="highlight">点击按钮</span>进入下一组。</li>
+                <!-- <li>若存在<strong>25</strong>组及以上的判断均超时，本次测试结果将被<span class="highlight">作废</span>！感谢您的配合，下面请开始测试</li> -->
+            </ul>
         </div>
-        <!-- 分隔线 -->
-        <div class="divider"></div>
-        <div class="right-images">
-            <img src="img\DA\n01537544_98.JPEG">
-            <img src="img\HTBA\n01537544_98.JPEG">
-            <img src="img\In_v\n01537544_215.JPEG">
-            <img src="img\lsb_panda\n01537544_215.JPEG">
-            <img src="img\ours\n01537544_215.JPEG">
-            <img src="img\refool\n01537544_215.JPEG">
-            <img src="img\SAA\n01537544_249.JPEG">
-            <img src="img\Sig\n01537544_215.JPEG">
-            <img src="img\CLBA\n01537544_215.JPEG">
-            <!-- 更多图像 -->
-        </div>
-    </div>
+        <!-- 图像区域 -->
+        <div class="images-container">
+            <div class="left-images">
+                <img src="img\clean\n01537544_828.png">
+                <img src="img\clean\n01537544_1048.png">
+                <img src="img\clean\n01537544_1052.png">
+                <img src="img\clean\n03417042_6959.png">
+                <img src="img\clean\n03417042_7080.png">
+                <img src="img\clean\n03417042_7530.png">
+                <img src="img\clean\n02086910_1461.png">
+                <img src="img\clean\n02086910_1348.png">
+                <img src="img\clean\n02086910_1261.png">
 
-    <!-- 图像解释 -->
-    <div class="image-explanation">
-        <div class="left-explanation">
-            <p>正常图像示例</p>
+                <!-- 更多图像 -->
+            </div>
+            <!-- 分隔线 -->
+            <div class="divider"></div>
+            <div class="right-images">
+                <img src="img\DA\n01537544_828.png">
+                <img src="img\HTBA\n01537544_1048.png">
+                <img src="img\Inv\n01537544_1052.png">
+                <img src="img\lsbPanda\n03417042_6959.png">
+                <img src="img\ours\n03417042_7080.png">
+                <img src="img\refool\n03417042_7530.png">
+                <img src="img\SAA\n02086910_1461.png">
+                <img src="img\Sig\n02086910_1348.png">
+                <img src="img\CLBA\n02086910_1261.png">
+                <!-- 更多图像 -->
+            </div>
         </div>
-        <div class="right-explanation">
-            <p>异常图像示例</p>
-        </div>
-    </div>
-    <!-- 新增按钮 -->
-    <div class="test-button-container">
-        <button id="startTestButton">开始测试</button>
-    </div>
 
+        <!-- 图像解释 -->
+        <div class="image-explanation">
+            <div class="left-explanation">
+                <p>高视觉质量示例</p>
+            </div>
+            <div class="right-explanation">
+                <p>低视觉质量示例</p>
+            </div>
+        </div>
+        <!-- 新增按钮 -->
+        <div class="test-button-container">
+            <button id="startTestButton">开始测试</button>
+        </div>
+    </div>
     <script>
         // 退出登录功能
         document.getElementById('logoutIcon').addEventListener('click', function() {
@@ -82,7 +86,7 @@
         function checkLogin() {
             var token = localStorage.getItem('jwt');
             var username = localStorage.getItem('username');
-            if (false) {
+            if (!token) {
                 // 如果没有JWT，重定向到登录页面
                 window.location.href = 'index.html';
             } else {
@@ -92,8 +96,9 @@
         }
 
         document.getElementById('startTestButton').addEventListener('click', function() {
-            window.location.href = 'user.html'; // 替换为目标页面的路径
+            window.location.href = 'user copy.html'; // 替换为目标页面的路径
         });
+
         // 页面加载时检查登录状态
         checkLogin();
     </script>

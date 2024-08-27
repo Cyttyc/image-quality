@@ -49,9 +49,85 @@
         let timeLeft = 10; // 10秒倒计时
         let isTimerDone = false; // 标记倒计时是否结束
 
-        const totalSelections = 5;
+        const totalSelections = 45;
         let currentSelection = 0; // 当前选择的组数
         let timeoutSelections = 0; // 记录超时选择的组数
+        // 定义selectedFolders为全局变量
+        let selectedFolders = [];
+        let count = 0;
+        var username = localStorage.getItem('username');
+        const folders = ['CLBA', 'DA', 'HTBA', 'lsbPanda', 'refool', 'ours', 'Sig', 'clean', 'Inv', 'SAA'];
+        const folderCounts = {};
+
+        const balanceCounts = {};
+        folders.forEach(folder => folderCounts[folder] = 0);
+        folders.forEach(folder => balanceCounts[folder] = 0);
+        const folderSelections = totalSelections / 10;
+
+        // 记录每次出现的图像文件夹及用户选择结果的数组
+        let selectionHistory = [];
+
+        // 初始化ELO分数
+        let eloScores = {};
+
+        // 使用fetch请求从后端获取上一个用户的ELO分数
+        fetch('/user/elo', {
+            method: 'POST',  // 使用POST请求
+            headers: {
+                'Content-Type': 'application/json'  // 设置请求头，指定内容类型为JSON
+            },
+            body: JSON.stringify({username})  // 将username包装为JSON格式发送到后端
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  // 将响应解析为JSON
+            })
+            .then(data => {
+                console.log('Data received from server:', data);  // 打印实际数据
+                console.log('Folders array:', folders);  // 打印 folders 数组以确认内容                // 使用获取到的数据初始化eloScores
+                folders.forEach(folder => {
+                    // 确保 data 对象中的键名与 folder 对应
+                    // const folderLowerCase = folder.toLowerCase();
+                    console.log(`Processing folder: ${folder}`);  // 打印当前处理的 folder
+                    console.log('是否存在folder：', data.data.hasOwnProperty(folder))
+                    eloScores[folder] = data.data[folder];
+                });
+                console.log('ELO scores initialized:', eloScores);  // 打印以确认ELO分数已正确初始化
+                // 在这里继续处理其他逻辑，比如更新界面
+            })
+            .catch(error => {
+                console.error('Error fetching ELO scores:', error);
+                // 如果发生错误，可以在这里设置默认的ELO分数
+                folders.forEach(folder => {
+                    eloScores[folder] = 1000;  // 在发生错误时，将默认值设置为1000
+                });
+                console.log('Using default ELO scores:', eloScores);
+                // 继续处理错误后的逻辑
+            });
+
+        function updateEloScores(selectedFolder, otherFolder, outcome) {
+            const K = 32; // K-factor, 可以调整影响ELO变化的程度
+            const expectedScoreSelected = 1 / (1 + Math.pow(10, (eloScores[otherFolder] - eloScores[selectedFolder]) / 400));
+            const expectedScoreOther = 1 / (1 + Math.pow(10, (eloScores[selectedFolder] - eloScores[otherFolder]) / 400));
+
+            if (outcome === 'win') {
+                eloScores[selectedFolder] += K * (1 - expectedScoreSelected);
+                eloScores[otherFolder] += K * (0 - expectedScoreOther);
+            } else if (outcome === 'loss') {
+                eloScores[selectedFolder] += K * (0 - expectedScoreSelected);
+                eloScores[otherFolder] += K * (1 - expectedScoreOther);
+            } else if (outcome === 'allLoss'){
+                eloScores[selectedFolder] += K * (0 - expectedScoreSelected);
+                eloScores[otherFolder] += K * (0 - expectedScoreOther);
+            } else if (outcome === 'allWin'){
+                eloScores[selectedFolder] += K * (1 - expectedScoreSelected);
+                eloScores[otherFolder] += K * (1 - expectedScoreOther);
+            }
+
+            console.log('Updated ELO Scores:', eloScores);
+        }
 
         function startTimer() {
             let checkboxes = document.getElementsByName('image-checkbox'); // 在startTimer中初始化checkboxes
@@ -114,17 +190,9 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        let count = 0;
-
-        const folders = ['CLBA', 'DA', 'HTBA', 'lsbPanda', 'refool', 'ours', 'Sig', 'clean', 'Inv', 'SAA'];
-        const folderCounts = {};
-        const balanceCounts = {};
-        folders.forEach(folder => folderCounts[folder] = 0);
-        folders.forEach(folder => balanceCounts[folder] = 0);
-        const folderSelections = totalSelections / 10;
-
+        
         async function fetchImageNames() {
-            const selectedFolders = getBalancedFolders();
+            selectedFolders = getBalancedFolders();
             while (selectedFolders[0] === selectedFolders[1]) {
                 selectedFolders[1] = getBalancedFolders();
             }
@@ -168,6 +236,9 @@
 
             image1.dataset.folder = folders[0];
             image2.dataset.folder = folders[1];
+            // 记录每次出现的图像文件夹
+            console.log(`显示图像: ${imgName}, 文件夹: ${folders[0]}, ${folders[1]}`);
+            selectionHistory.push({ folders: [...folders], result: null });
         }
 
         function nextImages(timerDone = false) {
@@ -182,11 +253,27 @@
 
             const selectedItems = Array.from(checkboxes).filter(item => item.checked);
 
-            selectedItems.forEach(selected => {
-                const selectedFolder = selected.parentElement.querySelector('img').dataset.folder;
-                folderCounts[selectedFolder] += 1; // 增加选中的文件夹计数
-            });
+            let outcome;
 
+            if (selectedItems.length === 0) {
+                // 没有选择任何图像，两个文件夹都降低分数
+                outcome = 'allLoss';
+                updateEloScores(selectedFolders[0], selectedFolders[1], outcome);
+            } else if (selectedItems.length === 2) {
+                // 选择了两个图像，两个文件夹都加分
+                outcome = 'allWin';
+                const selectedFolder1 = selectedItems[0].parentElement.querySelector('img').dataset.folder;
+                const selectedFolder2 = selectedItems[1].parentElement.querySelector('img').dataset.folder;
+                updateEloScores(selectedFolder1, selectedFolder2, outcome);
+            } else {
+                // 选择了一个图像，正常处理
+                const selectedFolder = selectedItems[0].parentElement.querySelector('img').dataset.folder;
+                const otherFolder = selectedFolder === selectedFolders[0] ? selectedFolders[1] : selectedFolders[0];
+                outcome = 'win';
+                updateEloScores(selectedFolder, otherFolder, outcome);
+            }
+
+            console.log('Selection history:', selectionHistory);
 
             currentSelection++;
             updateProgress(); // 更新进度条
@@ -198,6 +285,7 @@
                 } else {
                     localStorage.setItem('folderCounts', JSON.stringify(folderCounts));
                 }
+                localStorage.setItem('eloScores', JSON.stringify(eloScores));
                 window.location.href = 'viewport.html';
                 return;
             }
@@ -211,8 +299,8 @@
         function updateProgress() {
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
-            const progressPercentage = (currentSelection / totalSelections) * 45;
-            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`; // 修正进度条计算
+            const progressPercentage = (currentSelection / totalSelections) * 100;
+            progressBar.style.width = `${progressPercentage}%`; 
             progressText.textContent = `${currentSelection}/${totalSelections}`;
         }
 
@@ -238,7 +326,7 @@
         function checkLogin() {
             var token = localStorage.getItem('jwt');
             var username = localStorage.getItem('username');
-            if (false) {
+            if (!token) {
                 // 如果没有JWT，重定向到登录页面
                 window.location.href = 'index.html';
             } else {

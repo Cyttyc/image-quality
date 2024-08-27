@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>感谢参与</title>
     <link rel="stylesheet" href="./assets/viewportstyle.css">
+    <link rel="icon" href="img/log.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/log.ico" type="image/x-icon">
+
     <style>
         /* 定义旋转动画 */
         @keyframes spin {
@@ -15,8 +18,6 @@
                 transform: rotate(360deg);
             }
         }
-         
-
     </style>
 </head>
 <body>
@@ -25,8 +26,8 @@
         <img src="img/img_logo_2.png" alt="logo"> 
         <div>
             <a href="index.html">首页</a>
-            <a href="about.html">关于</a>
-            <a href="contact.html">联系</a>
+            <!-- <a href="about.html">关于</a> -->
+            <!-- <a href="contact.html">联系</a> -->
             <p id="usernameDisplay">账号名</p>
             <img src="img/logout.png" id="logoutIcon" alt="退出登录" title="退出登录">
         </div>
@@ -38,14 +39,15 @@
             <div class="spin-icon" id="spinIcon"></div>
             <div class="success-icon hidden" id="successIcon">✔</div>
         </div>
-        <div class="actions">
+        <!-- <div class="actions">
             <button id="viewResults" class="action-btn">查看结果</button>
             <button id="leaveMessage" class="action-btn">留言</button>
-        </div>
+        </div> -->
     </div>
 
 
     <script>
+
         // 退出登录功能
         document.getElementById('logoutIcon').addEventListener('click', function() {
             // 清除JWT和用户名
@@ -58,7 +60,9 @@
         function checkLogin() {
             var token = localStorage.getItem('jwt');
             var username = localStorage.getItem('username');
-            if (false) {
+            let status = localStorage.getItem('status');
+            // !token || status==1
+            if (!token) {
                 // 如果没有JWT，重定向到登录页面
                 window.location.href = 'index.html';
             } else {
@@ -69,7 +73,9 @@
 
         //自动保存数据至数据库中
         async function saveData() {
-            const folderCounts = JSON.parse(localStorage.getItem('folderCounts') || '{}');
+            const eloScores = JSON.parse(localStorage.getItem('eloScores') || '{}');
+
+            // const folderCounts = JSON.parse(localStorage.getItem('eloScores') || '{}');
             const username = localStorage.getItem('username');
 
             try {
@@ -80,12 +86,14 @@
                     },
                     body: JSON.stringify({
                         username: username,
-                        folderCounts: folderCounts
+                        eloScores: eloScores,
                     }),
                 });
 
                 if (response.ok) {
+                    const data = await response.json();  // 需要解析响应数据
                     console.log('Folder counts saved successfully');
+                    localStorage.setItem('status', data.data.status);
                 } else {
                     console.error('Failed to save folder counts');
                 }
@@ -107,6 +115,14 @@
                 saveData();
             }, 1000); // 1秒后停止旋转并显示成功提示
         };
+
+        window.onpopstate = function(event) {
+            var status = localStorage.getItem('status');
+            if (status == 1) {
+                window.location.href = 'index.html';
+            }
+        };
+
     </script>
     <script src="viewport.js"></script>
 </body>

@@ -6,7 +6,8 @@ body {
     justify-content: center; /* 让container在页面垂直方向居中 */
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
-    height: 100vh;
+    min-height: 100vh;
+    overflow: auto; /* 允许页面内容滚动 */
 }
 
 /* 退出，以及用户名显示 */
@@ -23,7 +24,7 @@ body {
     align-items: center;
     padding-right: 20px;
     box-sizing: border-box; /* 确保内边距不会影响整体宽度 */
-
+    z-index: 1000; /* 确保导航栏在内容上方 */
 }
 .header p {
     margin-right: 20px;
@@ -227,6 +228,53 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-size: 18px;
     font-weight: bold;
-    color: #000;
+    color: #f84c2a;
 }
 
+/* 针对大屏幕的样式 */
+@media (min-width: 763px) {
+    #timer {
+        font-size: 24px; /* 增大字体 */
+        padding: 15px; /* 增大内边距 */
+        top: 20px; /* 调整位置 */
+        right: 20px;
+        border-radius: 8px; /* 调整圆角 */
+    }
+}
+
+/* 针对小屏幕的样式 */
+@media (max-width: 402px) {
+    #timer {
+        font-size: 16px; /* 保持原字体大小 */
+        padding: 6px; /* 保持原内边距 */
+    }
+    h1 {
+        margin-bottom: 20px;
+        font-size: 31px;
+    }
+    .images {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .image-box {
+        flex: 0 1 auto; /* 让图像框占据同等宽度 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 20px; /* 增加内边距，使图像不贴边 */
+        /* 新增 */
+        cursor: pointer; /* 使点击时光标变成手型 */
+        transition: background-color 0.3s ease; /* 添加过渡效果 */
+    }
+    .image-box img {
+        width: 100%; /* 保持图像的原始宽度 */
+        height: auto; /* 保持图像的原始高度 */
+        max-width: 100%; /* 确保图像不会超出容器宽度 */
+        max-height: 100%; /* 确保图像不会超出容器高度 */
+        object-fit: contain; /* 保持图像比例，必要时在容器内缩放 */
+    }
+    
+}
