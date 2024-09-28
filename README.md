@@ -26,7 +26,7 @@
 <br>
 
 <p align="center">  
-  ![image](static/img_show/image_start.png)
+  ![image](./src/main/resources/static/img_show/image_start.png)
 </p> 
 
 <p align="center">  
