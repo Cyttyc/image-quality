@@ -3,6 +3,10 @@ package com.example.mapper;
 import org.apache.ibatis.annotations.*;
 import pojo.User;
 import pojo.UserLoginDTO;
+import pojo.UserResult;
+
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -21,4 +25,16 @@ public interface UserMapper {
 
     @Select("select * from user where id < #{currentUserId} order by id desc limit 1")
     User getPreviousUser(Long currentUserId);
+
+    /**
+     * 更新胜负
+     * @param userResult
+     */
+    void insertResult(UserResult userResult);
+
+    @Select("select ${method1}, ${method2} from user where username='admin'")
+    Map<String, Integer> getAdminElo(String method1, String method2);
+
+    @Select("select CLBA, DA, HTBA, lsbPanda, refool, ours, Sig, clean, Inv, SAA from user where username = 'admin'")
+    Map<String, Integer> getElo();
 }

@@ -60,9 +60,9 @@
         function checkLogin() {
             var token = localStorage.getItem('jwt');
             var username = localStorage.getItem('username');
-            let status = localStorage.getItem('status');
+            var status = localStorage.getItem('status');
             // !token || status==1
-            if (!token) {
+            if (!token || status==1) {
                 // 如果没有JWT，重定向到登录页面
                 window.location.href = 'index.html';
             } else {
@@ -118,7 +118,7 @@
 
         window.onpopstate = function(event) {
             var status = localStorage.getItem('status');
-            if (status == 1) {
+            if (status === 1) {
                 window.location.href = 'index.html';
             }
         };

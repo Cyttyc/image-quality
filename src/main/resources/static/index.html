@@ -97,8 +97,11 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             //登录成功，讲JWT储存在localStroage
             localStorage.setItem('jwt', data.data.token);
             localStorage.setItem('username', data.data.username);
-            // localStorage.setItem('status', data.data.status);
-            window.location.href = 'userPrompt.html';
+            if(data.data.username === 'admin'){
+                window.location.href = 'admin.html';
+            }else{
+                window.location.href = 'userPrompt.html';
+            }     
         } else {
             messageElement.textContent = data.msg || '用户名或密码错误！'; // 错误消息
             messageElement.style.color = 'red';

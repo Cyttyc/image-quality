@@ -49,85 +49,49 @@
         let timeLeft = 10; // 10秒倒计时
         let isTimerDone = false; // 标记倒计时是否结束
 
-        const totalSelections = 45;
-        let currentSelection = 0; // 当前选择的组数
+
         let timeoutSelections = 0; // 记录超时选择的组数
-        // 定义selectedFolders为全局变量
-        let selectedFolders = [];
-        let count = 0;
+
+
         var username = localStorage.getItem('username');
+        // const folders = ['CLBA', 'DA', 'HTBA'];
         const folders = ['CLBA', 'DA', 'HTBA', 'lsbPanda', 'refool', 'ours', 'Sig', 'clean', 'Inv', 'SAA'];
         const folderCounts = {};
 
-        const balanceCounts = {};
         folders.forEach(folder => folderCounts[folder] = 0);
-        folders.forEach(folder => balanceCounts[folder] = 0);
-        const folderSelections = totalSelections / 10;
 
         // 记录每次出现的图像文件夹及用户选择结果的数组
         let selectionHistory = [];
+        let folderCombinations = [];
+        let currentCombinationIndex = 0;
+        const totalSelections = folders.length * (folders.length - 1) / 2; // N(N-1)/2 是组合数
 
-        // 初始化ELO分数
-        let eloScores = {};
-
-        // 使用fetch请求从后端获取上一个用户的ELO分数
-        fetch('/user/elo', {
-            method: 'POST',  // 使用POST请求
-            headers: {
-                'Content-Type': 'application/json'  // 设置请求头，指定内容类型为JSON
-            },
-            body: JSON.stringify({username})  // 将username包装为JSON格式发送到后端
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+        function generateFolderCombinations() {
+            for (let i = 0; i < folders.length; i++) {
+                for (let j = i + 1; j < folders.length; j++) {
+                    folderCombinations.push([folders[i], folders[j]]);
                 }
-                return response.json();  // 将响应解析为JSON
-            })
-            .then(data => {
-                console.log('Data received from server:', data);  // 打印实际数据
-                console.log('Folders array:', folders);  // 打印 folders 数组以确认内容                // 使用获取到的数据初始化eloScores
-                folders.forEach(folder => {
-                    // 确保 data 对象中的键名与 folder 对应
-                    // const folderLowerCase = folder.toLowerCase();
-                    console.log(`Processing folder: ${folder}`);  // 打印当前处理的 folder
-                    console.log('是否存在folder：', data.data.hasOwnProperty(folder))
-                    eloScores[folder] = data.data[folder];
-                });
-                console.log('ELO scores initialized:', eloScores);  // 打印以确认ELO分数已正确初始化
-                // 在这里继续处理其他逻辑，比如更新界面
-            })
-            .catch(error => {
-                console.error('Error fetching ELO scores:', error);
-                // 如果发生错误，可以在这里设置默认的ELO分数
-                folders.forEach(folder => {
-                    eloScores[folder] = 1000;  // 在发生错误时，将默认值设置为1000
-                });
-                console.log('Using default ELO scores:', eloScores);
-                // 继续处理错误后的逻辑
-            });
-
-        function updateEloScores(selectedFolder, otherFolder, outcome) {
-            const K = 32; // K-factor, 可以调整影响ELO变化的程度
-            const expectedScoreSelected = 1 / (1 + Math.pow(10, (eloScores[otherFolder] - eloScores[selectedFolder]) / 400));
-            const expectedScoreOther = 1 / (1 + Math.pow(10, (eloScores[selectedFolder] - eloScores[otherFolder]) / 400));
-
-            if (outcome === 'win') {
-                eloScores[selectedFolder] += K * (1 - expectedScoreSelected);
-                eloScores[otherFolder] += K * (0 - expectedScoreOther);
-            } else if (outcome === 'loss') {
-                eloScores[selectedFolder] += K * (0 - expectedScoreSelected);
-                eloScores[otherFolder] += K * (1 - expectedScoreOther);
-            } else if (outcome === 'allLoss'){
-                eloScores[selectedFolder] += K * (0 - expectedScoreSelected);
-                eloScores[otherFolder] += K * (0 - expectedScoreOther);
-            } else if (outcome === 'allWin'){
-                eloScores[selectedFolder] += K * (1 - expectedScoreSelected);
-                eloScores[otherFolder] += K * (1 - expectedScoreOther);
             }
-
-            console.log('Updated ELO Scores:', eloScores);
         }
+        function seedRandom(seed) {
+            const m = 0x80000000; // 2^31
+            const a = 1103515245;
+            const c = 12345;
+            seed = (a * seed + c) % m;
+            return seed / (m - 1);
+        }
+
+        function shuffleArray(array, seed) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(seedRandom(seed + i) * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+
+
+
 
         function startTimer() {
             let checkboxes = document.getElementsByName('image-checkbox'); // 在startTimer中初始化checkboxes
@@ -190,39 +154,17 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        
+
         async function fetchImageNames() {
-            selectedFolders = getBalancedFolders();
-            while (selectedFolders[0] === selectedFolders[1]) {
-                selectedFolders[1] = getBalancedFolders();
-            }
+            startTimer(); // 启动计时器
+            const selectedFolders = folderCombinations[currentCombinationIndex];
 
             const response = await fetch('img/all.txt');
             const text = await response.text();
             const lines = text.trim().split('\n');
             const name = lines.map(line => line.split(/\s+/)[0]);
             setRandomImages(name, selectedFolders);
-            startTimer(); // 启动计时器
-        }
 
-        function getBalancedFolders() {
-            const eligibleFolders = folders.filter(folder => balanceCounts[folder] < folderSelections);
-
-            if (eligibleFolders.length < 2) {
-                Object.keys(balanceCounts).forEach(folder => balanceCounts[folder] = 0);
-                return getBalancedFolders();
-            }
-
-            let selectedFolders = [];
-            while (selectedFolders.length < 2) {
-                const folder = getRandomElement(eligibleFolders);
-                if (!selectedFolders.includes(folder)) {
-                    selectedFolders.push(folder);
-                }
-            }
-
-            selectedFolders.forEach(folder => balanceCounts[folder]++);
-            return selectedFolders;
         }
 
         function setRandomImages(name, folders) {
@@ -252,40 +194,42 @@
             }); 
 
             const selectedItems = Array.from(checkboxes).filter(item => item.checked);
+            const selectedFolder = selectedItems.length === 1 ? selectedItems[0].closest('.image-box').querySelector('img').dataset.folder : null;
 
-            let outcome;
-
-            if (selectedItems.length === 0) {
-                // 没有选择任何图像，两个文件夹都降低分数
-                outcome = 'allLoss';
-                updateEloScores(selectedFolders[0], selectedFolders[1], outcome);
+            if (timerDone || selectedItems.length === 0) {
+                selectionHistory[selectionHistory.length - 1].result = 'allLoss';
+            } else if (selectedItems.length === 1) {
+                selectionHistory[selectionHistory.length - 1].result = selectedFolder;
             } else if (selectedItems.length === 2) {
-                // 选择了两个图像，两个文件夹都加分
-                outcome = 'allWin';
-                const selectedFolder1 = selectedItems[0].parentElement.querySelector('img').dataset.folder;
-                const selectedFolder2 = selectedItems[1].parentElement.querySelector('img').dataset.folder;
-                updateEloScores(selectedFolder1, selectedFolder2, outcome);
-            } else {
-                // 选择了一个图像，正常处理
-                const selectedFolder = selectedItems[0].parentElement.querySelector('img').dataset.folder;
-                const otherFolder = selectedFolder === selectedFolders[0] ? selectedFolders[1] : selectedFolders[0];
-                outcome = 'win';
-                updateEloScores(selectedFolder, otherFolder, outcome);
+                selectionHistory[selectionHistory.length - 1].result = 'allWin';
             }
 
             console.log('Selection history:', selectionHistory);
 
-            currentSelection++;
+            currentCombinationIndex++;
             updateProgress(); // 更新进度条
             
-            if (currentSelection >= totalSelections) {
+            if (currentCombinationIndex >= folderCombinations.length) {
                 if (timeoutSelections > totalSelections / 2) {
                     // 如果超时选择的比例超过50%，则清零数据
                     localStorage.removeItem('folderCounts');
                 } else {
                     localStorage.setItem('folderCounts', JSON.stringify(folderCounts));
                 }
-                localStorage.setItem('eloScores', JSON.stringify(eloScores));
+                //保存数据
+                fetch('/user/saveSelectionHistory', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        selectedHistory: selectionHistory
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => console.log('Selection history saved:', data))
+                    .catch(error => console.error('Error saving selection history:', error));
                 window.location.href = 'viewport.html';
                 return;
             }
@@ -299,15 +243,18 @@
         function updateProgress() {
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
-            const progressPercentage = (currentSelection / totalSelections) * 100;
+            const progressPercentage = (currentCombinationIndex / totalSelections) * 100;
             progressBar.style.width = `${progressPercentage}%`; 
-            progressText.textContent = `${currentSelection}/${totalSelections}`;
+            progressText.textContent = `${currentCombinationIndex}/${totalSelections}`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            generateFolderCombinations();
+            console.log(folderCombinations);
+            shuffleArray(folderCombinations, 0);
+            console.log(folderCombinations); // 打印出打乱顺序后的比较对
             fetchImageNames();
             updateProgress(); // 初始化进度条
-            startTimer(); // 开始计时器
         });
 
     </script>

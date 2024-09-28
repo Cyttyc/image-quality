@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import pojo.User;
 import pojo.UserDataDTO;
 import pojo.UserLoginDTO;
+import pojo.UserSaveSelectionDTO;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,4 +29,17 @@ public interface UserService {
      * @return
      */
     Map<String, Integer> elo(UserDataDTO userDataDTO);
+
+    /**
+     * 保存便利的文件夹
+     * @param userSaveSelectionDTO
+     * @return
+     */
+     void saveSelectionHistory(UserSaveSelectionDTO userSaveSelectionDTO);
+
+    /**
+     * 获取分数
+     * @return
+     */
+    Map<String, Integer> getElo();
 }

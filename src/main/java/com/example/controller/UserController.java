@@ -6,14 +6,13 @@ import com.example.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pojo.MeaageDTO;
-import pojo.User;
-import pojo.UserDataDTO;
-import pojo.UserLoginDTO;
+import pojo.*;
 import result.Result;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //@CrossOrigin(origins = "http://localhost:9090") // 替换为前端的 URL
@@ -80,4 +79,16 @@ public class UserController {
         Map<String, Integer> map = userService.elo(userDataDTO);
         return Result.success(map);
     }
+
+    @PostMapping("/saveSelectionHistory")
+    public void saveSelectionHistory(@RequestBody UserSaveSelectionDTO userSaveSelectionDTO){
+        userService.saveSelectionHistory(userSaveSelectionDTO);
+
+    }
+
+    @PostMapping("/getElo")
+    public Map<String, Integer> getElo(){
+        return userService.getElo();
+    }
+
 }
