@@ -24,13 +24,15 @@
 (打开网页登录，需联系管理员 email: tangyingchun_131@163.com)  
 
 <br>
-  
-![image](./src/main/resources/static/img_show/image_start.png)
+
+<p align="center">  
+  PC端界面  
+</p> 
+![image](src/main/resources/static/img_show/image_start.png)
 
 
 <p align="center">  
-  移动端界面  
-  xxxxx  
+  移动端界面    
 </p> 
 
 <br>
