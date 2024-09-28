@@ -24,10 +24,9 @@
 (打开网页登录，需联系管理员 email: tangyingchun_131@163.com)  
 
 <br>
+  
+![image](./src/main/resources/static/img_show/image_start.png)
 
-<p align="center">  
-  ![image](./src/main/resources/static/img_show/image_start.png)
-</p> 
 
 <p align="center">  
   移动端界面  
