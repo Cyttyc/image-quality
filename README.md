@@ -26,7 +26,8 @@
 <br>
 
 <p align="center">  
-  ![客户端界面](https://github.com/Cyttyc/image-quality/blob/master/src/main/resources/static/img_show/image_start.png)
+  (![客户端界面](https://github.com/Cyttyc/image-quality/raw/master/src/main/resources/static/img_show/image_start.png)
+)
 </p> 
 
 <p align="center">  
