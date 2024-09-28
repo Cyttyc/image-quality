@@ -25,17 +25,17 @@
 
 <br>
 <p align="center">  
-  PC端界面    
+  <strong>PC端界面</strong>  
 </p> 
 
 ![image](./src/main/resources/static/img_show/image_start.png)
 
 
 <p align="center">  
-  移动端界面    
+  <strong>移动端界面</strong>    
 </p> 
 
-![image](./src/main/resources/static/img_show/image_start_phone.jpg)
+![image](./src/main/resources/static/img_show/image_start_iphone.jpg)
 <br>
 
 在 `/img` 文件夹中存放预先设置的中毒图像。
