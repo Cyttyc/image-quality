@@ -42,13 +42,11 @@
 </p>
 
 <br>
-更多图像展示在 `/src/main/resources/static/img_show` 目录中。  
+更多平台界面的图像展示在 `/src/main/resources/static/img_show` 目录中。  
 <br>
-
-在 `/img` 文件夹中存放预先设置的中毒图像。
-
+此外， `/img` 文件夹中存放预先设置的中毒图像。
 <br>
-
+后端实现部分由Java语言设计。
 在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码。主要实现功能由以下部分耦合实现：
 
 - `/controller/UserController.java`
