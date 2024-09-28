@@ -26,7 +26,7 @@
 <br>
 
 <p align="center">  
-  ![客户端界面](img/client_interface.png)
+  ![客户端界面](src/main/resources/static/img_show/image_start.png)
  
 </p> 
 
