@@ -30,12 +30,9 @@
 
 ![image](./src/main/resources/static/img_show/image_start.png)
 
-<p align="center">  
-  <img src="./src/main/resources/static/img_show/image_tishi.png" width="300"/>
-</p>
-<p align="center">  
-  <img src="./src/main/resources/static/img_show/image_choose.png" width="300"/>
-</p>
+![image](./src/main/resources/static/img_show/image_tishi.png)
+
+![image](./src/main/resources/static/img_show/image_choose.png)
 
 <p align="center">  
   <strong>移动端界面</strong>  
@@ -44,6 +41,8 @@
   <img src="https://github.com/Cyttyc/image-quality/raw/master/src/main/resources/static/img_show/image_start_iphone.jpg" alt="移动端界面" width="300"/>
 </p>
 
+<br>
+更多图像展示在 `/src/main/resources/static/img_show` 目录中。  
 <br>
 
 在 `/img` 文件夹中存放预先设置的中毒图像。
