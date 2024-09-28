@@ -26,8 +26,8 @@
 <br>
 
 <p align="center">  
-  客户端界面  
-  xxxxx  
+  ![客户端界面](img/client_interface.png)
+ 
 </p> 
 
 <p align="center">  
