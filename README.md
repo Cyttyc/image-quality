@@ -19,7 +19,6 @@
 管理员可以通过登录管理账号 "admin" 来查看数据可视化结果。
 
 <br>
-
 具体界面如下图所示，访问链接：[http://ttyc.3s.tunnelfrp.com](http://ttyc.3s.tunnelfrp.com)  
 <small> ——打开网页登录时，需联系管理员 email: tangyingchun_131@163.com</small>
 
@@ -45,11 +44,12 @@
 <br>
 更多平台界面的图像展示在 `/src/main/resources/static/img_show` 目录中。  
 <br>
+<br>
 此外， `/img` 文件夹中存放预先设置的中毒图像。
-
+<br>
 <br>
 后端实现部分由 Java 语言设计。
-
+<br>
 <br>
 在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码，其功能由以下部分实现：
 
