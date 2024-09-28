@@ -28,7 +28,8 @@
 <p align="center">  
   PC端界面  
 </p> 
-![image](src/main/resources/static/img_show/image_start.png)
+<br>
+![image](./src/main/resources/static/img_show/image_start.png)
 
 
 <p align="center">  
