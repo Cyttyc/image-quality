@@ -30,7 +30,16 @@
 
 ![image](./src/main/resources/static/img_show/image_start.png)
 
+<p align="center">  
+  <img src="./src/main/resources/static/img_show/image_tishi.png" width="300"/>
+</p>
+<p align="center">  
+  <img src="./src/main/resources/static/img_show/image_choose.png" width="300"/>
+</p>
 
+<p align="center">  
+  <strong>移动端界面</strong>  
+</p> 
 <p align="center">  
   <img src="https://github.com/Cyttyc/image-quality/raw/master/src/main/resources/static/img_show/image_start_iphone.jpg" alt="移动端界面" width="300"/>
 </p>
