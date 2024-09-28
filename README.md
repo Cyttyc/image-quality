@@ -46,15 +46,15 @@
 更多平台界面的图像展示在 `/src/main/resources/static/img_show` 目录中。  
 <br>
 此外， `/img` 文件夹中存放预先设置的中毒图像。
+
 <br>
-后端实现部分由Java语言设计。
+后端实现部分由 Java 语言设计。
+
 <br>
-在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码。
-<br>
-主要实现功能由以下部分耦合实现：
-<br>
+在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码，其功能由以下部分实现：
+
 - `/controller/UserController.java`
 - `/service/UserService.java`
 - `/service/impl/UserServiceImpl.java`
 
-通过解耦的方式设计。同时，`/mapper/UserMapper` 主要用于受试者数据的写入，保存至数据库中。
+这些部分采用解耦设计，便于各功能模块的独立发展与维护。同时，`/mapper/UserMapper` 主要用于受试者数据的写入，保存至数据库中。
