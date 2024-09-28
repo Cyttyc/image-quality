@@ -32,10 +32,9 @@
 
 
 <p align="center">  
-  <strong>移动端界面</strong>    
-</p> 
+  <img src="https://github.com/Cyttyc/image-quality/raw/master/src/main/resources/static/img_show/image_start_iphone.jpg" alt="移动端界面" width="300"/>
+</p>
 
-![image](./src/main/resources/static/img_show/image_start_iphone.jpg)
 <br>
 
 在 `/img` 文件夹中存放预先设置的中毒图像。
