@@ -21,7 +21,8 @@
 <br>
 
 具体界面如下图所示，访问链接：[http://ttyc.3s.tunnelfrp.com](http://ttyc.3s.tunnelfrp.com)  
-<small><strong>(打开网页登录，需联系管理员 email: tangyingchun_131@163.com)</strong></small>
+<span style="font-size: 10px;"><strong>(打开网页登录，需联系管理员 email: tangyingchun_131@163.com)</strong></span>
+
 
 <br>
 <p align="center">  
