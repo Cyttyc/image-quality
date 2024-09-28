@@ -21,7 +21,7 @@
 <br>
 
 具体界面如下图所示，访问链接：[http://ttyc.3s.tunnelfrp.com](http://ttyc.3s.tunnelfrp.com)  
-<small>(打开网页登录，需联系管理员 email: tangyingchun_131@163.com)</small>
+<small><strong>(打开网页登录，需联系管理员 email: tangyingchun_131@163.com)</strong></small>
 
 <br>
 <p align="center">  
@@ -46,9 +46,12 @@
 <br>
 此外， `/img` 文件夹中存放预先设置的中毒图像。
 <br>
-
-后端实现部分由Java语言设计。在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码。主要实现功能由以下部分耦合实现：
-
+后端实现部分由Java语言设计。
+<br>
+在 `/src/main/java/com/example` 目录中，主要存放后端逻辑代码。
+<br>
+主要实现功能由以下部分耦合实现：
+<br>
 - `/controller/UserController.java`
 - `/service/UserService.java`
 - `/service/impl/UserServiceImpl.java`
