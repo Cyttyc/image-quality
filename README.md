@@ -24,11 +24,10 @@
 (打开网页登录，需联系管理员 email: tangyingchun_131@163.com)  
 
 <br>
-
 <p align="center">  
-  PC端界面  
+  PC端界面    
 </p> 
-<br>
+
 ![image](./src/main/resources/static/img_show/image_start.png)
 
 
@@ -36,6 +35,7 @@
   移动端界面    
 </p> 
 
+![image](./src/main/resources/static/img_show/image_start_phone.jpg)
 <br>
 
 在 `/img` 文件夹中存放预先设置的中毒图像。
